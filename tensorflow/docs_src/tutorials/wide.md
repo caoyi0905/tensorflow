@@ -7,7 +7,6 @@
 
 ## 起步
 
-
 为了尝试本教程中的代码：
 
 1.  @{$install$Install TensorFlow} 如果你还没有安装。
