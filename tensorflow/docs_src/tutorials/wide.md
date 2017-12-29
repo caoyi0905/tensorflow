@@ -3,7 +3,7 @@
 在这个教程中,我们将使用 Tensorflow 中的 tf.estimator API 来解决二分类问题：
 给定含有年龄、性别、教育程度和职业（的这些特征）的人口普查数据，
 我们将用其预测每个人是否达到年收入 50,000 美元（目标标签）。
-我们会训练一个**Logistic 回归**模型，对于每个人的信息，输出 0 或 1,表明这个人是否能达到年收入 50,000 美元。
+我们会训练一个 **Logistic 回归**模型，对于每个人的信息，输出 0 或 1，表明这个人是否能达到年收入 50,000 美元。
 
 ## 起步
 
@@ -11,11 +11,11 @@
 
 1.  @{$install$Install TensorFlow} 如果你还没有安装。
 
-2.  下载 [教程代码](https://www.tensorflow.org/code/tensorflow/examples/learn/wide_n_deep_tutorial.py).
+2.  下载 [教程代码](https://www.tensorflow.org/code/tensorflow/examples/learn/wide_n_deep_tutorial.py)。
 
 3.  安装 pandas 库（用作数据分析的库）。tf.estimator 不依赖于 pandas，但是支持它，在本教程中也使用了 pandas。安装 pandas：
 
-    a. 安装 `pip`:
+    a. 安装 `pip`：
 
         # Ubuntu/Linux 64 位
         $ sudo apt-get install python-pip python-dev
@@ -24,7 +24,7 @@
         $ sudo easy_install pip
         $ sudo easy_install --upgrade six
 
-    b. 使用 `pip` 安装 pandas:
+    b. 使用 `pip` 安装 pandas：
 
         $ pip install -U pandas
 
@@ -121,8 +121,8 @@ test_labels = (df_test["income_bracket"].apply(lambda x: ">50K" in x)).astype(in
 
 我们使用 `tf.estimator.inputs.pandas_input_fn` 方法从 pandas 的 dataframe 中创建一个输入函数。
 训练或测试数据的 dataframe 中的每个连续列都将被转换成一个 `Tensor`，一般来说这是表示稠密数据的一种很好的格式。
-对于分类数据，我们必须将数据表示为 `SparseTensor`。 这种数据格式适合用来表示稀疏数据。
-表示输入数据的另一种更高级的方法是构建代表文件或其他数据源的  @{$python/io_ops#inputs-and-readers$Inputs And Readers}，并在 TensorFlow 运行图时遍历文件。
+对于分类数据，我们必须将数据表示为 `SparseTensor`。这种数据格式适合用来表示稀疏数据。
+表示输入数据的另一种更高级的方法是构建代表文件或其他数据源的 @{$python/io_ops#inputs-and-readers$Inputs And Readers}，并在 TensorFlow 运行图时遍历文件。
 
 ```python
 def input_fn(data_file, num_epochs, shuffle):
@@ -228,7 +228,6 @@ hours_per_week = tf.feature_column.numeric_column("hours_per_week")
 ```
 
 ###　通过桶化连续性特征的分类
-### Making Continuous Features Categorical through Bucketization
 
 有时连续特征和标签之间的关系不是线性的。
 假设一下，一个人的收入在职业生涯初期可能会随着年龄的增长而增长，然后增长会有所放缓，退休后收入会减少。
@@ -240,7 +239,7 @@ hours_per_week = tf.feature_column.numeric_column("hours_per_week")
 
 如果我们想要学习收入和每个年龄组之间的细粒度的相关性，我们需要利用**桶化**。
 桶化是将连续特征的整个范围划分为一组连续的 箱/桶 的过程，然后根据值落入哪个桶中，
-就将其原始数值特征转换为桶ID（作为一个分类特征）。
+就将其原始数值特征转换为桶 ID（作为一个分类特征）。
 所以，我们可以定义 `bucketized_column` 为 `age`：
 
 ```python
@@ -249,7 +248,6 @@ age_buckets = tf.feature_column.bucketized_column(
 ```
 其中 `boundaries` 是桶边界的列表。在上述情况下，有 10 个边界值，产生了 11 个年龄组桶（从 0-17，18-24，25-29...到65及其以上）。
 
-### Intersecting Multiple Columns with CrossedColumn
 ### 使用 CrossedColumn 相交多列
 
 分别使用每个基本特征列可能并不足以解释数据。
@@ -278,10 +276,10 @@ age_buckets_x_education_x_occupation = tf.feature_column.crossed_column(
 在处理输入数据并定义所有特征列后，我们现在准备将它们放在一起并构建一个 Logistic 回归模型。
 在上一节中，我们已经看到了几种类型的基本和派生特征列，包括：
 
-*   `CategoricalColumn`
-*   `NumericColumn`
-*   `BucketizedColumn`
-*   `CrossedColumn`
+* `CategoricalColumn`
+* `NumericColumn`
+* `BucketizedColumn`
+* `CrossedColumn`
 
 所有的这些列都是抽象类 `FeatureColumn` 的子类，并且都可以添加到模型的 `feature_columns` 字段中：
 
